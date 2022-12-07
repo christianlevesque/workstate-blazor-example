@@ -1,0 +1,35 @@
+@using BlazorClient.Data
+
+<article class="wiki-article my-3 border rounded py-4 px-5 d-flex flex-row">
+	<div class="wiki-article__thumbnail-container d-flex justify-content-center align-items-center me-5 flex-shrink-0">
+		<img src="@(Data.Thumbnail ?? "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png")"
+        	     alt="@($"{Data.Title} article header image")"
+        	     class="wiki-article__thumbnail"/>
+	</div>
+
+	<section class="wiki-data d-flex flex-column">
+		<div class="flex-grow-1">
+			<h2>
+            	<a href="@($"https://en.wikipedia.org/wiki/{WikiUrl}")"
+            	   target="_blank"
+            	   class="wiki-article__link">
+            		@Data.Title
+            	</a>
+            </h2>
+            <p>
+            	@((MarkupString)Data.Snippet)
+            </p>
+		</div>
+
+		<p class="flex-shrink-0 small fst-italic text-muted text-end mb-0">
+			@($"Last updated {Data.Timestamp:f}")
+		</p>
+	</section>
+</article>
+
+@code {
+	[Parameter]
+	public ArticleDto Data { get; set; } = default!;
+
+	private string WikiUrl => Data.Title.Replace(' ', '_');
+}

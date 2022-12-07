@@ -1,0 +1,30 @@
+@using BlazorClient.Data
+
+<div class="py-3"></div>
+
+@if (IsLoading)
+{
+	<Spinner/>
+	return;
+}
+
+@if (!Articles.Any())
+{
+	<p>There are no articles to display.</p>
+	return;
+}
+
+<div>
+	@foreach (var article in Articles)
+	{
+		<ArticleSingle Data="article"/>
+	}
+</div>
+
+@code {
+	[Parameter]
+	public IEnumerable<ArticleDto> Articles { get; set; } = Array.Empty<ArticleDto>();
+
+	[Parameter]
+	public bool IsLoading { get; set; }
+}

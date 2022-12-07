@@ -1,0 +1,32 @@
+@using System.Timers
+
+<div class="my-3">
+	<div class="input-group">
+		<label for="@Id"
+               class="input-group-text border-secondary">
+        	@ChildContent
+        </label>
+
+		<input id="@Id"
+		       class="form-control border-secondary border-end-0"
+		       value="@Value"
+		       @oninput="@OnInput"
+		       @onchange="@OnInput"/>
+
+		<button class="btn btn-outline-secondary border-start-0"
+		        type="button"
+		        @onclick="Reset">
+			<i class="fas fa-times"></i>
+		</button>
+	</div>
+
+	@if (MinLength > 0 && ValueLength < MinLength)
+	{
+		var diff = MinLength - ValueLength;
+		var ending = diff > 1 ? "s" : "";
+
+		<p class="text-danger">
+			Please enter at least @diff more character@(ending)
+		</p>
+	}
+</div>

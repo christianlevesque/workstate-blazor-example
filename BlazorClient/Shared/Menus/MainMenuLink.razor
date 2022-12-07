@@ -1,0 +1,20 @@
+<div class="nav-item pe-3 py-2">
+	<NavLink class="nav-link text-white"
+	         href="@Link"
+	         Match="NavLinkMatch.All">
+		<i aria-hidden="true"
+		   class="fas fa-@Icon"></i>
+		@ChildContent
+	</NavLink>0
+</div>
+
+@code {
+	[Parameter]
+	public string Icon { get; set; } = default!;
+
+	[Parameter]
+	public string Link { get; set; } = default!;
+
+	[Parameter]
+	public RenderFragment ChildContent { get; set; } = default!;
+}

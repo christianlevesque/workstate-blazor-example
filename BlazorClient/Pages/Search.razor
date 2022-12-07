@@ -1,0 +1,63 @@
+@page "/search"
+
+@using BlazorClient.Services
+@using Microsoft.Extensions.Logging
+@using BlazorClient.Data
+
+@inject ILogger<Search> Logger
+
+<PageTitle>Search</PageTitle>
+
+<h1>Search Wikipedia</h1>
+
+<TextInput @bind-Value="@SearchTerm"
+           Interval="300"
+           MinLength="@MinLength">
+	Search
+</TextInput>
+
+<ArticleList Articles="_articles"
+             IsLoading="_loading"/>
+
+@code {
+
+	[Inject]
+	private IWikipediaService WikipediaService { get; set; } = default!;
+
+	private const int MinLength = 3;
+
+	private IEnumerable<ArticleDto> _articles = Array.Empty<ArticleDto>();
+	private bool _loading;
+	private string? _searchTerm;
+
+	private string? SearchTerm
+	{
+		get => _searchTerm;
+		set
+		{
+			if (_searchTerm == value) return;
+			_searchTerm = value;
+			_ = FetchEntries();
+		}
+	}
+
+	private async Task FetchEntries()
+	{
+		if (string.IsNullOrEmpty(_searchTerm)
+		    || _searchTerm.Length < MinLength)
+		{
+			Logger.LogInformation(
+				"Skipping entry update: search term {} is less than minimum length {}.",
+				_searchTerm,
+				MinLength);
+			_articles = Array.Empty<ArticleDto>();
+			StateHasChanged();
+			return;
+		}
+
+		_loading = true;
+		_articles = await WikipediaService.Search(_searchTerm);
+		_loading = false;
+		StateHasChanged();
+	}
+}

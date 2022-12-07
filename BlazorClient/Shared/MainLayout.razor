@@ -1,0 +1,18 @@
+﻿@inherits LayoutComponentBase
+
+<div class="d-flex flex-column min-vh-100">
+	<NavMenu/>
+
+	<main class="container flex-grow-1"
+	      style="padding-top:75px">
+		@Body
+	</main>
+
+	<footer class="bg-dark text-white text-center px-5 py-3">
+		&copy;@(DateTime.Now.Year) Christian LeVesque. This site and its source code are distributed under the terms of the
+		<a href="https://opensource.org/licenses/unlicense"
+		   target="_blank">
+			Unlicense
+		</a>.
+	</footer>
+</div>
